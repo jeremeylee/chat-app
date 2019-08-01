@@ -1,10 +1,11 @@
 import React from 'react';
 import './App.css';
+import ChatInput from './components/chatInput';
 
 const App = (props) => {
   return (
     <div>
-      Hello world
+      <ChatInput />
     </div>
   );
 }
