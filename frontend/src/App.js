@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import ChatInput from './components/chatInput';
-import Messages from './components/messages';
+import Message from './components/message';
 
 const App = (props) => {
   const divRef = React.createRef(); //Used to ref the hidden <div> at the bottom of the message container and keep the chat box always scrolled down
@@ -17,7 +17,7 @@ const App = (props) => {
 
   const showMessages = () => (
     props.message.map(message => (
-      <Messages
+      <Message
       //implement key when IDs are implemented 
         username={message.username}
         message={message.message}
