@@ -6,9 +6,13 @@ import messageHelper from './components/messages_helper';
 import Messages from './components/messages';
 
 const App = (props) => {
+  const divRef = React.createRef(); //Used to ref the hidden <div> at the bottom of the message container and keep the chat box always scrolled down
+
   useEffect(() => {
-    showMessages();
+    divRef.current.scrollIntoView();
   }, [props.message]);
+
+  
 
   const showMessages = () => (
     props.message.map(message => (
@@ -24,6 +28,7 @@ const App = (props) => {
     <div>
       <div className='message-container'>
         {showMessages()}
+        <div ref={divRef}></div>
       </div>
       <ChatInput />
     </div>
