@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
 import ChatInput from './components/chatInput';
-import messageHelper from './components/messages_helper';
 import Messages from './components/messages';
 
 const App = (props) => {
@@ -10,6 +9,8 @@ const App = (props) => {
 
   useEffect(() => {
     divRef.current.scrollIntoView();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.message]);
 
   
