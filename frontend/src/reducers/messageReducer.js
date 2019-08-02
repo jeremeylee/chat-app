@@ -1,7 +1,12 @@
-const messageReducer = (state, action) => {
+import messageHelper from '../components/messages_helper';
+
+const messageReducer = (state = messageHelper, action) => {
   switch(action.type) {
-    case 'NEW':
-      return state;
+    case 'NEW': {
+      const newState = state.concat(action.data);
+      console.log(newState);
+      return newState;
+    }
     case 'EDIT':
       return state;
     case 'DELETE':
@@ -11,4 +16,10 @@ const messageReducer = (state, action) => {
   }
 }
 
+export const messageAction = (type, data) => (
+  {
+    type,
+    data,
+  }
+)
 export default messageReducer;
