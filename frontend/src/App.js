@@ -24,9 +24,7 @@ const App = (props) => {
     divRef.current.scrollIntoView();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.message]);
-
-  
+  }, [message]);
 
   const showMessages = () => {
     if (message) {

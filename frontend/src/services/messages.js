@@ -1,9 +1,14 @@
 import axios from 'axios';
-const baseUrl = '/api/messages';
+const baseURL = 'http://localhost:3001/messages';
 
 const getMessages = async () => {
-  const response = await axios.get('http://localhost:3001/messages');
+  const response = await axios.get(baseURL);
   return response.data;
 }
 
-export default { getMessages };
+const sendMessage = async (messageObject) => {
+  const response = await axios.post(baseURL, messageObject);
+  return response.data;
+}
+
+export default { getMessages, sendMessage };

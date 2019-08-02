@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { messageAction } from '../reducers/messageReducer';
+import messageService from '../services/messages';
 import { Input  } from 'antd';
 
 const randomUser = () => {
@@ -17,10 +18,11 @@ const ChatInput = (props) => {
     const newMessage = {
       message,
       username: randomUser(),
+      id: props.message.length + 1,
     };
-
+    const returnedMessage = messageService.sendMessage(newMessage);
     props.messageAction('NEW', newMessage);
-    console.log(message);
+    console.log(returnedMessage);
     setMessage('');
   }
 
@@ -29,8 +31,13 @@ const ChatInput = (props) => {
   );
 }
 
+const mapStateToProps = state => (
+  {
+    message: state.message,
+  }
+)
 const mapDispatchToProps = {
   messageAction,
 }
 
-export default connect(null, mapDispatchToProps)(ChatInput);
+export default connect(mapStateToProps, mapDispatchToProps)(ChatInput);
