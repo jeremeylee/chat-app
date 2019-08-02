@@ -1,11 +1,14 @@
 import messageHelper from '../components/messages_helper';
 
-const messageReducer = (state = messageHelper, action) => {
+const messageReducer = (state = null, action) => {
   switch(action.type) {
     case 'NEW': {
-      const newState = state.concat(action.data);
-      console.log(newState);
-      return newState;
+      if(state) {
+        const newState = state.concat(action.data);
+        console.log(newState);
+        return newState;
+      }
+      return action.data;
     }
     case 'EDIT':
       return state;
