@@ -3,3 +3,8 @@
 .App {
   text-align: center;
 }
+ 
+.message-container {
+  overflow: auto;
+  height: 500px;
+}
