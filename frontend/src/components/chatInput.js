@@ -9,25 +9,25 @@ const randomUser = () => {
 }
 
 const ChatInput = (props) => {
-  const [message, setMessage] = useState('');
+  
 
   const handleEnter = (event) => {
     event.preventDefault();
-    setMessage(event.target.value);
+    props.setChatText(event.target.value);
     
     const newMessage = {
-      message,
+      message: props.chatText,
       username: randomUser(),
       id: props.message.length + 1,
     };
     const returnedMessage = messageService.sendMessage(newMessage);
     props.messageAction('NEW', newMessage);
     console.log(returnedMessage);
-    setMessage('');
+    props.setChatText('');
   }
 
   return (
-    <Input.TextArea placeholder="Message" value={message} onChange={value => setMessage(value.target.value)} onPressEnter={handleEnter} autosize/>
+    <Input.TextArea placeholder="Message" value={props.chatText} onChange={value => props.setChatText(value.target.value)} onPressEnter={handleEnter} autosize/>
   );
 }
 

@@ -9,6 +9,7 @@ import messageService from './services/messages';
 
 const App = (props) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [chatText, setChatText] = useState('');
   const [currentID, setCurrentID] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [left, setLeft] = useState(0);
@@ -100,7 +101,10 @@ const App = (props) => {
           <li>Delete</li>
         </ul>
       </div>
-      <ChatInput />
+      <ChatInput
+        chatText={chatText}
+        setChatText={setChatText}
+      />
 
     </div>
   );
