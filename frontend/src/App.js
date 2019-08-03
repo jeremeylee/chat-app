@@ -53,12 +53,24 @@ const App = (props) => {
     left: `${left}px`,
     top: `${top}px`,
   }
+
+  const handleContextMenu = (event, id) => {
+    event.preventDefault();
+
+    setShowMenu(true);
+    setLeft(event.clientX)
+    setTop(event.clientY)
+    console.log(id);
+    
+  }
+
   const showMessages = () => {
     if (message) {
       return (
       message.map(content => (
         <Message
           key={content.id}
+          handleContextMenu={(event) => handleContextMenu(event,content.id)}
           username={content.username}
           message={content.message}
           showMenu={showMenu}
