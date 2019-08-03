@@ -106,12 +106,6 @@ const App = (props) => {
           handleContextMenu={(event) => handleContextMenu(event, content.username, content.id)}
           username={content.username}
           message={content.message}
-          showMenu={showMenu}
-          setShowMenu={setShowMenu}
-          left={left}
-          setLeft={setLeft}
-          top={top}
-          setTop={setTop}
         />
       ))
       );
