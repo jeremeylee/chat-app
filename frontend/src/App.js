@@ -48,6 +48,12 @@ const App = (props) => {
     
   }, [showMenu]);
 
+  const handleEdit = () => {
+    setEditMode(true);
+    const messageToEdit = message.filter(edit => edit.id === currentID).map(edit => edit.message);
+    setChatText(messageToEdit);
+  }
+
   const handleDelete = () => {
    // console.log('delete');
   }
@@ -62,16 +68,21 @@ const App = (props) => {
 
   const handleEnter = (event) => {
     event.preventDefault();
-    setChatText(event.target.value);
-    
-    const newMessage = {
-      message: chatText,
-      username: randomUser(),
-      id: message.length + 1,
-    };
-    const returnedMessage = messageService.sendMessage(newMessage);
-    messageAction('NEW', newMessage);
-    console.log(returnedMessage);
+    if(editMode) {
+      console.log(event.target.value, currentUser, currentID);
+      props.editMessage(event.target.value, currentUser, currentID);
+      setEditMode(false);
+      console.log('here', editMode);
+    } else {
+      setChatText(event.target.value);
+      const newMessage = {
+        message: chatText,
+        username: randomUser(),
+        id: message.length + 1,
+      };
+      const returnedMessage = messageService.sendMessage(newMessage);
+      messageAction('NEW', newMessage);
+    }
     setChatText('');
   }
 
@@ -115,7 +126,7 @@ const App = (props) => {
       </div>
       <div style={menuStyle}>
         <ul>
-          <li onClick={() => setEditMode(true)}>Edit</li>
+          <li onClick={handleEdit}>Edit</li>
           <li>Delete</li>
         </ul>
       </div>
