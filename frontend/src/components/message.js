@@ -3,11 +3,6 @@ import { Row } from 'antd';
 
 const Messages = (props) => {
 
-/* 
-  const menuStyle = {
-    display: showMenu ? '' : 'none'
-  }
-   */
   return (
     <div>
       <Row onContextMenu={props.handleContextMenu}>
