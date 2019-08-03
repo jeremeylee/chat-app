@@ -3,12 +3,14 @@ import { connect } from 'react-redux';
 import './App.css';
 import ChatInput from './components/chatInput';
 import Message from './components/message';
-import { messageAction } from './reducers/messageReducer';
+import { messageAction, editMessage } from './reducers/messageReducer';
 
 import messageService from './services/messages';
 
 const App = (props) => {
   const [showMenu, setShowMenu] = useState(false);
+  const [currentID, setCurrentID] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
   const [left, setLeft] = useState(0);
   const [top, setTop] = useState(0);
 
@@ -34,13 +36,13 @@ const App = (props) => {
     // Needed to prevent double contextmenu caused by a second right click
       window.addEventListener('contextmenu', event => {
         event.preventDefault();
-        console.log('hello');
       })
     
   }, [showMenu]);
 
   const handleEdit = () => {
-    //console.log('edit');
+    //messageAction('NEW', currentID); 
+    props.editMessage('new message test', currentUser, currentID);
   }
 
   const handleDelete = () => {
@@ -54,13 +56,14 @@ const App = (props) => {
     top: `${top}px`,
   }
 
-  const handleContextMenu = (event, id) => {
+  const handleContextMenu = (event, username, id) => {
     event.preventDefault();
 
     setShowMenu(true);
     setLeft(event.clientX)
     setTop(event.clientY)
-    console.log(id);
+    setCurrentID(id);
+    setCurrentUser(username);
     
   }
 
@@ -70,7 +73,7 @@ const App = (props) => {
       message.map(content => (
         <Message
           key={content.id}
-          handleContextMenu={(event) => handleContextMenu(event,content.id)}
+          handleContextMenu={(event) => handleContextMenu(event, content.username, content.id)}
           username={content.username}
           message={content.message}
           showMenu={showMenu}
@@ -93,7 +96,7 @@ const App = (props) => {
       </div>
       <div style={menuStyle}>
         <ul>
-          <li>Edit</li>
+          <li onClick={handleEdit}>Edit</li>
           <li>Delete</li>
         </ul>
       </div>
@@ -112,6 +115,7 @@ const mapStateToProps = (state) => (
 const mapDispatchToProps = (
   {
     messageAction,
+    editMessage,
   }
 )
 export default connect(mapStateToProps,mapDispatchToProps)(App);
