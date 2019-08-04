@@ -26,9 +26,9 @@ const messageReducer = (state = null, action) => {
   }
 }
 
-export const messageAction = (type, data) => (
+export const sendMessage = (data) => (
   {
-    type,
+    type: 'NEW',
     data,
   }
 )

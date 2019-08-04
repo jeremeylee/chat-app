@@ -1,6 +1,4 @@
-import React, { useState } from 'react';
-import { connect } from 'react-redux';
-import { messageAction } from '../reducers/messageReducer';
+import React from 'react';
 import { Input  } from 'antd';
 
 
@@ -12,13 +10,4 @@ const ChatInput = (props) => {
   );
 }
 
-const mapStateToProps = state => (
-  {
-    message: state.message,
-  }
-)
-const mapDispatchToProps = {
-  messageAction,
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChatInput);
+export default ChatInput;

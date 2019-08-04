@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './App.css';
 import ChatInput from './components/chatInput';
 import Message from './components/message';
-import { messageAction, editMessage } from './reducers/messageReducer';
+import { sendMessage, editMessage } from './reducers/messageReducer';
 import messageService from './services/messages';
 
 const randomUser = () => {
@@ -19,7 +19,7 @@ const App = (props) => {
   const [left, setLeft] = useState(0);
   const [top, setTop] = useState(0);
 
-  const { messageAction, message} = props;
+  const { sendMessage, message} = props;
 
   const divRef = React.createRef(); //Used to ref the hidden <div> at the bottom of the message container and keep the chat box always scrolled down
   
@@ -29,7 +29,7 @@ const App = (props) => {
     window.addEventListener('click', () => setShowMenu(false));
     const fetchMessages = async () => {
       const savedMessages = await messageService.getMessages();
-      messageAction('NEW', savedMessages);
+      sendMessage(savedMessages);
     }
     fetchMessages();
   }, []);
@@ -55,7 +55,7 @@ const App = (props) => {
   }
 
   const handleDelete = () => {
-   // console.log('delete');
+    console.log('delete');
   }
 
   const menuStyle = {
@@ -85,7 +85,7 @@ const App = (props) => {
         id: message.length + 1,
       };
       messageService.sendMessage(newMessage);
-      messageAction('NEW', newMessage);
+      sendMessage(newMessage);
     }
     setChatText('');
   }
@@ -125,7 +125,7 @@ const App = (props) => {
       <div style={menuStyle}>
         <ul>
           <li onClick={handleEdit}>Edit</li>
-          <li>Delete</li>
+          <li onClick={handleDelete}>Delete</li>
         </ul>
       </div>
       <ChatInput
@@ -146,7 +146,7 @@ const mapStateToProps = (state) => (
 
 const mapDispatchToProps = (
   {
-    messageAction,
+    sendMessage,
     editMessage,
   }
 )
