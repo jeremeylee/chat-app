@@ -1,12 +1,8 @@
 const mongoose = require('mongoose');
 
-const messageSchema = mongoose.Schema({
+const messageSchema = new mongoose.Schema({
   message: String,
   date: Date,
-  user: {
-    type: mongoose.Schema.Types.ObjectID,
-    ref: 'User',
-  },
 });
 
 messageSchema.set('toJSON', {
