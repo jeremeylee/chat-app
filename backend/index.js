@@ -14,8 +14,13 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
   })
   .catch(error => console.error(error));
 
-app.get('/', (req, res) => {
-  res.send('hello');
+app.get('/api/messages', async (req, res, next) => {
+  try {
+    const messages = await Message.find({});
+    res.json(messages.map(message => message.toJSON()));
+  } catch (exception) {
+    next(exception);
+  }
 });
 
 app.post('/api/messages', async (req, res, next) => {
@@ -33,9 +38,23 @@ app.post('/api/messages', async (req, res, next) => {
   }
 });
 
+app.put('/api/messages/:id', async (req, res, next) => {
+  const { body } = req;
+  try {
+    const editMessage = {
+      message: body.message,
+    };
+
+    const updatedMessage = await Message.findByIdAndUpdate(req.params.id, editMessage, { new: true });
+    res.json(updatedMessage.toJSON());
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 const errorHandler = (err, req, res, next) => {
   console.error(err);
-}
+};
 
 PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
