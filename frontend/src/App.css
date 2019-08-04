@@ -1,10 +1,54 @@
 @import '~antd/dist/antd.css';
 
-.App {
-  text-align: center;
+body {
+  background: #579E84;
+  height: 575px;
 }
- 
+
+.header {
+  margin-top: 50px;
+  margin-bottom: 0;
+}
+
+.chat-container {
+  background: #5BB57C;
+  width: 525px;
+  height: 575px;
+  margin: 50px auto;
+  border-radius: 10px;
+  -webkit-box-shadow: 0px 0px 7px 1px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 0px 7px 1px rgba(0,0,0,0.75);
+  box-shadow: 0px 0px 7px 1px rgba(0,0,0,0.75);
+}
 .message-container {
+  background: #5BB57C;
   overflow: auto;
   height: 500px;
+  width: 500px;
+  margin: 0 auto;
+  padding-left: 10px;
+}
+
+.context-menu {
+  background: #224045;
+  margin: 0 auto;
+  text-align: left;
+  width: 75px;
+  border-radius: 5px;
+  
+}
+ul {
+  margin: 0;
+  padding: 0;
+}
+li {
+  color: #d4d4d4;
+  list-style: none;
+  border-radius: 5px;
+  margin: 0;
+  padding: 5px;
+}
+
+li:hover {
+  background: #46828C;
 }

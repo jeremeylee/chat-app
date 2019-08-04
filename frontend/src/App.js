@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import './App.css';
+import { Row } from 'antd';
 import ChatInput from './components/chatInput';
 import Message from './components/message';
 import { sendMessage, editMessage, deleteMessage } from './reducers/messageReducer';
@@ -87,8 +88,8 @@ const App = (props) => {
   const handleContextMenu = (event, username, id) => {
     event.preventDefault();
     setShowMenu(true);
-    setLeft(event.clientX)
-    setTop(event.clientY)
+    setLeft(event.pageX)
+    setTop(event.pageY)
     setCurrentID(id);
     setCurrentUser(username);
   }
@@ -119,22 +120,24 @@ const App = (props) => {
 
   return (
     <div>
-      <div className='message-container'>
-        {showMessages()}
-        <div ref={divRef}></div>
+      <Row type='flex' justify='center' className='header'><h1>Chat Application</h1></Row>
+      <div className='chat-container'>
+        <div className='message-container'>
+          {showMessages()}
+          <div ref={divRef}></div>
+        </div>
+        <div className='context-menu' style={menuStyle}>
+          <ul>
+            <li onClick={handleEdit}>Edit</li>
+            <li onClick={handleDelete}>Delete</li>
+          </ul>
+        </div>
+        <ChatInput
+          chatText={chatText}
+          setChatText={setChatText}
+          handleEnter={handleEnter}
+        />
       </div>
-      <div style={menuStyle}>
-        <ul>
-          <li onClick={handleEdit}>Edit</li>
-          <li onClick={handleDelete}>Delete</li>
-        </ul>
-      </div>
-      <ChatInput
-        chatText={chatText}
-        setChatText={setChatText}
-        handleEnter={handleEnter}
-      />
-
     </div>
   );
 }

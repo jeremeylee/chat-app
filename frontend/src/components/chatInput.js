@@ -1,12 +1,15 @@
 import React from 'react';
-import { Input  } from 'antd';
-
+import { Input, Row  } from 'antd';
+import './chatInput.css'
 
 
 const ChatInput = (props) => {
 
   return (
-    <Input placeholder="Message" value={props.chatText} onChange={value => props.setChatText(value.target.value)} onPressEnter={props.handleEnter} autosize/>
+    
+      <Input className="chat-input" placeholder="Message" value={props.chatText} onChange={value => props.setChatText(value.target.value)} onPressEnter={props.handleEnter} />
+   
+    
   );
 }
 
