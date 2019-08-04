@@ -52,6 +52,15 @@ app.put('/api/messages/:id', async (req, res, next) => {
   }
 });
 
+app.delete('/api/messages/:id', async (req, res, next) => {
+  try {
+    await Message.findByIdAndRemove(req.params.id);
+    res.status(204).end();
+  } catch (exception) {
+    next(exception);
+  }
+});
+
 const errorHandler = (err, req, res, next) => {
   console.error(err);
 };
