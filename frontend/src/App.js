@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './App.css';
 import ChatInput from './components/chatInput';
 import Message from './components/message';
-import { sendMessage, editMessage } from './reducers/messageReducer';
+import { sendMessage, editMessage, deleteMessage } from './reducers/messageReducer';
 import messageService from './services/messages';
 
 const randomUser = () => {
@@ -56,6 +56,7 @@ const App = (props) => {
 
   const handleDelete = () => {
     console.log('delete');
+    props.deleteMessage(currentID);
   }
 
   const menuStyle = {
@@ -148,6 +149,7 @@ const mapDispatchToProps = (
   {
     sendMessage,
     editMessage,
+    deleteMessage,
   }
 )
 export default connect(mapStateToProps,mapDispatchToProps)(App);

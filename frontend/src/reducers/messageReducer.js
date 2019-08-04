@@ -19,8 +19,10 @@ const messageReducer = (state = null, action) => {
       };
       return editedMessage.map(message => message.id === action.id ? newMessage : message);
     }
-    case 'DELETE':
-      return state;
+    case 'DELETE': {
+      const deletedMessage = [...state];
+      return deletedMessage.filter(message => message.id !== action.id);
+    }
     default:
       return state;
   }
@@ -38,6 +40,13 @@ export const editMessage = (message, username, id) => (
     type: 'EDIT',
     message,
     username,
+    id,
+  }
+)
+
+export const deleteMessage = (id) => (
+  {
+    type: 'DELETE',
     id,
   }
 )
