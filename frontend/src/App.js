@@ -57,14 +57,7 @@ const App = (props) => {
   const handleDelete = () => {
     console.log('delete');
     props.deleteMessage(currentID);
-  }
-
-  const menuStyle = {
-    display: showMenu ? '' : 'none',
-    position: 'absolute',
-    left: `${left}px`,
-    top: `${top}px`,
-
+    messageService.deleteMessage(currentID);
   }
 
   const handleEnter = (event) => {
@@ -76,7 +69,7 @@ const App = (props) => {
         username: currentUser,
         id: currentID,
       };
-      messageService.updateMessage(editedMessage, currentID);
+      const response = messageService.updateMessage(editedMessage, currentID);
       setEditMode(false);
     } else {
       setChatText(event.target.value);
@@ -98,9 +91,16 @@ const App = (props) => {
     setTop(event.clientY)
     setCurrentID(id);
     setCurrentUser(username);
-    console.log(editMode);
-    
   }
+
+  const menuStyle = {
+    display: showMenu ? '' : 'none',
+    position: 'absolute',
+    left: `${left}px`,
+    top: `${top}px`,
+
+  }
+
 
   const showMessages = () => {
     if (message) {

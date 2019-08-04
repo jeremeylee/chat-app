@@ -15,4 +15,9 @@ const updateMessage = async (messageObject, id) => {
   const response = await axios.put(`${baseURL}/${id}`, messageObject);
   return response.data;
 }
-export default { getMessages, sendMessage, updateMessage };
+
+const deleteMessage = async (id) => {
+  const response = await axios.delete(`${baseURL}/${id}`);
+  return response.data;
+}
+export default { getMessages, sendMessage, updateMessage, deleteMessage };

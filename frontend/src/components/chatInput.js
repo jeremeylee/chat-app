@@ -6,7 +6,7 @@ import { Input  } from 'antd';
 const ChatInput = (props) => {
 
   return (
-    <Input.TextArea placeholder="Message" value={props.chatText} onChange={value => props.setChatText(value.target.value)} onPressEnter={props.handleEnter} autosize/>
+    <Input placeholder="Message" value={props.chatText} onChange={value => props.setChatText(value.target.value)} onPressEnter={props.handleEnter} autosize/>
   );
 }
 
