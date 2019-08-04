@@ -11,4 +11,8 @@ const sendMessage = async (messageObject) => {
   return response.data;
 }
 
-export default { getMessages, sendMessage };
+const updateMessage = async (messageObject, id) => {
+  const response = await axios.put(`${baseURL}/${id}`, messageObject);
+  return response.data;
+}
+export default { getMessages, sendMessage, updateMessage };

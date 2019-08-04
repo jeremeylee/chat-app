@@ -69,10 +69,14 @@ const App = (props) => {
   const handleEnter = (event) => {
     event.preventDefault();
     if(editMode) {
-      console.log(event.target.value, currentUser, currentID);
       props.editMessage(event.target.value, currentUser, currentID);
+      const editedMessage = {
+        message: event.target.value,
+        username: currentUser,
+        id: currentID,
+      };
+      messageService.updateMessage(editedMessage, currentID);
       setEditMode(false);
-      console.log('here', editMode);
     } else {
       setChatText(event.target.value);
       const newMessage = {
@@ -80,7 +84,7 @@ const App = (props) => {
         username: randomUser(),
         id: message.length + 1,
       };
-      const returnedMessage = messageService.sendMessage(newMessage);
+      messageService.sendMessage(newMessage);
       messageAction('NEW', newMessage);
     }
     setChatText('');
