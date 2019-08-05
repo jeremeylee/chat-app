@@ -23,7 +23,7 @@ app.get('/api/messages', async (req, res, next) => {
   }
 });
 
-app.post('/api/messages', async (req, res, next) => {
+/* app.post('/api/messages', async (req, res, next) => {
   const { body } = req;
   try {
     const newMessage = new Message({
@@ -35,7 +35,7 @@ app.post('/api/messages', async (req, res, next) => {
   } catch (exception) {
     next(exception);
   }
-});
+}); */
 
 app.put('/api/messages/:id', async (req, res, next) => {
   const { body } = req;
@@ -71,9 +71,18 @@ io.on('connection', (socket) => {
     console.log(savedMessage.toJSON());
     io.emit('newMessage', savedMessage.toJSON());
   });
+  socket.on('editMessage', async (data) => {
+    console.log('data: ',data)
+    const editMessage = {
+      message: data.message,
+      username: data.username,
+      id: data.id,
+    };
+    const updatedMessage = await Message.findByIdAndUpdate(data.id, editMessage, { new: true });
+    console.log(updatedMessage.toJSON());
+    io.emit('editMessage', updatedMessage.toJSON());
+  });
 });
-
-
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {

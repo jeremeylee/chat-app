@@ -38,7 +38,7 @@ const App = (props) => {
     fetchMessages();
     socket = io('http://localhost:3001');
     socket.on('newMessage', data => sendMessage(data));
-    
+    socket.on('editMessage', data => props.editMessage(data.message, data.id));
   }, []);
   
   useEffect(() => {
@@ -69,13 +69,14 @@ const App = (props) => {
   const handleEnter = async (event) => {
     event.preventDefault();
     if(editMode) {
-      props.editMessage(event.target.value, currentUser, currentID);
+      //props.editMessage(event.target.value, currentUser, currentID);
       const editedMessage = {
         message: event.target.value,
         username: currentUser,
         id: currentID,
       };
-      await messageService.updateMessage(editedMessage, currentID);
+      //await messageService.updateMessage(editedMessage, currentID);
+      socket.emit('editMessage', editedMessage);
       setEditMode(false);
     } else {
 
