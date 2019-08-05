@@ -23,43 +23,6 @@ app.get('/api/messages', async (req, res, next) => {
   }
 });
 
-/* app.post('/api/messages', async (req, res, next) => {
-  const { body } = req;
-  try {
-    const newMessage = new Message({
-      message: body.message,
-      date: new Date(),
-    });
-    const savedMessage = await newMessage.save();
-    res.json(savedMessage.toJSON());
-  } catch (exception) {
-    next(exception);
-  }
-}); */
-
-app.put('/api/messages/:id', async (req, res, next) => {
-  const { body } = req;
-  try {
-    const editMessage = {
-      message: body.message,
-    };
-
-    const updatedMessage = await Message.findByIdAndUpdate(req.params.id, editMessage, { new: true });
-    res.json(updatedMessage.toJSON());
-  } catch (exception) {
-    next(exception);
-  }
-});
-
-app.delete('/api/messages/:id', async (req, res, next) => {
-  try {
-    await Message.findByIdAndRemove(req.params.id);
-    res.status(204).end();
-  } catch (exception) {
-    next(exception);
-  }
-});
-
 io.on('connection', (socket) => {
   console.log('Socket connected');
   socket.on('newMessage', async (data) => {
@@ -88,6 +51,44 @@ io.on('connection', (socket) => {
     io.emit('deleteMessage', deletedMessage.toJSON());
   });
 });
+
+
+/* app.post('/api/messages', async (req, res, next) => {
+  const { body } = req;
+  try {
+    const newMessage = new Message({
+      message: body.message,
+      date: new Date(),
+    });
+    const savedMessage = await newMessage.save();
+    res.json(savedMessage.toJSON());
+  } catch (exception) {
+    next(exception);
+  }
+}); */
+
+/* app.put('/api/messages/:id', async (req, res, next) => {
+  const { body } = req;
+  try {
+    const editMessage = {
+      message: body.message,
+    };
+
+    const updatedMessage = await Message.findByIdAndUpdate(req.params.id, editMessage, { new: true });
+    res.json(updatedMessage.toJSON());
+  } catch (exception) {
+    next(exception);
+  }
+});
+
+app.delete('/api/messages/:id', async (req, res, next) => {
+  try {
+    await Message.findByIdAndRemove(req.params.id);
+    res.status(204).end();
+  } catch (exception) {
+    next(exception);
+  }
+}); */
 
 const PORT = process.env.PORT || 3001;
 server.listen(PORT, () => {

@@ -36,10 +36,12 @@ const App = (props) => {
       sendMessage(savedMessages);
     }
     fetchMessages();
+
     socket = io('http://localhost:3001');
     socket.on('newMessage', data => sendMessage(data));
     socket.on('editMessage', data => props.editMessage(data.message, data.id));
     socket.on('deleteMessage', data => props.deleteMessage(data.id));
+  
   }, []);
   
   useEffect(() => {
@@ -64,19 +66,17 @@ const App = (props) => {
 
   const handleDelete = async () => {
     socket.emit('deleteMessage', currentID)
-    /* await messageService.deleteMessage(currentID); */
   }
 
   const handleEnter = async (event) => {
     event.preventDefault();
     if(editMode) {
-      //props.editMessage(event.target.value, currentUser, currentID);
       const editedMessage = {
         message: event.target.value,
         username: currentUser,
         id: currentID,
       };
-      //await messageService.updateMessage(editedMessage, currentID);
+
       socket.emit('editMessage', editedMessage);
       setEditMode(false);
     } else {
@@ -86,7 +86,7 @@ const App = (props) => {
         message: chatText,
         username: randomUser(),
       };
-      //await messageService.sendMessage(newMessage);
+
       socket.emit('newMessage', newMessage);
     }
     setChatText('');
