@@ -82,6 +82,11 @@ io.on('connection', (socket) => {
     console.log(updatedMessage.toJSON());
     io.emit('editMessage', updatedMessage.toJSON());
   });
+  socket.on('deleteMessage', async (data) => {
+    const deletedMessage = await Message.findByIdAndRemove(data);
+    console.log(deletedMessage.toJSON());
+    io.emit('deleteMessage', deletedMessage.toJSON());
+  });
 });
 
 const PORT = process.env.PORT || 3001;

@@ -39,6 +39,7 @@ const App = (props) => {
     socket = io('http://localhost:3001');
     socket.on('newMessage', data => sendMessage(data));
     socket.on('editMessage', data => props.editMessage(data.message, data.id));
+    socket.on('deleteMessage', data => props.deleteMessage(data.id));
   }, []);
   
   useEffect(() => {
@@ -62,8 +63,8 @@ const App = (props) => {
   }
 
   const handleDelete = async () => {
-    props.deleteMessage(currentID);
-    await messageService.deleteMessage(currentID);
+    socket.emit('deleteMessage', currentID)
+    /* await messageService.deleteMessage(currentID); */
   }
 
   const handleEnter = async (event) => {
