@@ -1,7 +1,6 @@
 import messageHelper from '../components/messages_helper';
 
 const messageReducer = (state = null, action) => {
-  console.log('action: ', action.type);
   switch(action.type) {
     case 'NEW': {
       if(state) {

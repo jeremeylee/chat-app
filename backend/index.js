@@ -1,10 +1,10 @@
-const express = require('express');
+const app = require('express')();
+const server = require('http').Server(app);
+const io = require('socket.io')(server);
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const config = require('./utils/config');
 const Message = require('./models/message');
-
-const app = express();
 
 app.use(bodyParser.json());
 
@@ -30,7 +30,6 @@ app.post('/api/messages', async (req, res, next) => {
       message: body.message,
       date: new Date(),
     });
-
     const savedMessage = await newMessage.save();
     res.json(savedMessage.toJSON());
   } catch (exception) {
@@ -61,11 +60,22 @@ app.delete('/api/messages/:id', async (req, res, next) => {
   }
 });
 
-const errorHandler = (err, req, res, next) => {
-  console.error(err);
-};
+io.on('connection', (socket) => {
+  console.log('Socket connected');
+  socket.on('newMessage', async (data) => {
+    const newMessage = new Message({
+      message: data.message,
+      data: new Date(),
+    });
+    const savedMessage = await newMessage.save();
+    console.log(savedMessage.toJSON());
+    io.emit('newMessage', savedMessage.toJSON());
+  });
+});
 
-PORT = process.env.PORT || 3001;
-app.listen(PORT, () => {
+
+
+const PORT = process.env.PORT || 3001;
+server.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });

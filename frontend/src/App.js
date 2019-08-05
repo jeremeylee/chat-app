@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
+import io from 'socket.io-client';
 import './App.css';
 import { Row } from 'antd';
 import ChatInput from './components/chatInput';
 import Message from './components/message';
 import { sendMessage, editMessage, deleteMessage } from './reducers/messageReducer';
 import messageService from './services/messages';
+
+var socket;
 
 const randomUser = () => {
   return Math.random() > 0.5 ? 'testUser1' : 'otherPerson2';
@@ -20,19 +23,22 @@ const App = (props) => {
   const [left, setLeft] = useState(0);
   const [top, setTop] = useState(0);
 
-  const { sendMessage, message} = props;
+  const { sendMessage, message } = props;
 
   const divRef = React.createRef(); //Used to ref the hidden <div> at the bottom of the message container and keep the chat box always scrolled down
   
-  //Allows left clicking anywhere to close context menu
+  
   useEffect(() => {
-    
+    //Allows left clicking anywhere to close context menu
     window.addEventListener('click', () => setShowMenu(false));
     const fetchMessages = async () => {
       const savedMessages = await messageService.getMessages();
       sendMessage(savedMessages);
     }
     fetchMessages();
+    socket = io('http://localhost:3001');
+    socket.on('newMessage', data => sendMessage(data));
+    
   }, []);
   
   useEffect(() => {
@@ -55,13 +61,12 @@ const App = (props) => {
     setChatText(messageToEdit);
   }
 
-  const handleDelete = () => {
-    console.log('delete');
+  const handleDelete = async () => {
     props.deleteMessage(currentID);
-    messageService.deleteMessage(currentID);
+    await messageService.deleteMessage(currentID);
   }
 
-  const handleEnter = (event) => {
+  const handleEnter = async (event) => {
     event.preventDefault();
     if(editMode) {
       props.editMessage(event.target.value, currentUser, currentID);
@@ -70,17 +75,17 @@ const App = (props) => {
         username: currentUser,
         id: currentID,
       };
-      const response = messageService.updateMessage(editedMessage, currentID);
+      await messageService.updateMessage(editedMessage, currentID);
       setEditMode(false);
     } else {
+
       setChatText(event.target.value);
       const newMessage = {
         message: chatText,
         username: randomUser(),
-        id: message.length + 1,
       };
-      messageService.sendMessage(newMessage);
-      sendMessage(newMessage);
+      //await messageService.sendMessage(newMessage);
+      socket.emit('newMessage', newMessage);
     }
     setChatText('');
   }
