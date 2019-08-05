@@ -8,6 +8,8 @@ import Message from './components/message';
 import { sendMessage, editMessage, deleteMessage } from './reducers/messageReducer';
 import messageService from './services/messages';
 
+const socket = io('http://localhost:3001');
+
 const randomUser = () => {
   return Math.random() > 0.5 ? 'testUser1' : 'otherPerson2';
 }
@@ -35,7 +37,6 @@ const App = (props) => {
     }
     fetchMessages();
 
-    const socket = io('http://localhost:3001');
     socket.on('newMessage', data => sendMessage(data));
     socket.on('editMessage', data => props.editMessage(data.message, data.id));
     socket.on('deleteMessage', data => props.deleteMessage(data.id));
