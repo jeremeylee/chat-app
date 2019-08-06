@@ -3,6 +3,7 @@ mongoose.set('useFindAndModify', false);
 const messageSchema = new mongoose.Schema({
   message: String,
   date: Date,
+  username: String,
 });
 
 messageSchema.set('toJSON', {

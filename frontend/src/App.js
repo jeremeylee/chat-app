@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import io from 'socket.io-client';
 import './App.css';
-import { Row } from 'antd';
+import { Row, Button } from 'antd';
 import ChatInput from './components/chatInput';
 import Message from './components/message';
 import LoginPage from './components/loginPage';
@@ -16,6 +16,7 @@ const randomUser = () => {
 }
 
 const App = (props) => {
+  const [displayPage, setDisplayPage] = useState('LOGIN');
   const [activeUser, setActiveUser] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [chatText, setChatText] = useState('');
@@ -38,9 +39,14 @@ const App = (props) => {
       sendMessage(savedMessages);
     }
     fetchMessages();
-
+    const loggedUserJSON = window.localStorage.getItem('loggedUser');
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON);
+      setActiveUser(user);
+      setDisplayPage('CHAT');
+    }
     socket.on('newMessage', data => sendMessage(data));
-    socket.on('editMessage', data => props.editMessage(data.message, data.id));
+    socket.on('editMessage', data => props.editMessage(data.message, data.username, data.id));
     socket.on('deleteMessage', data => props.deleteMessage(data.id));
   
   }, []);
@@ -83,11 +89,11 @@ const App = (props) => {
       socket.emit('editMessage', editedMessage);
       setEditMode(false);
     } else {
-
+      
       setChatText(event.target.value);
       const newMessage = {
         message: chatText,
-        username: randomUser(),
+        username: activeUser,
       };
 
       socket.emit('newMessage', newMessage);
@@ -103,6 +109,12 @@ const App = (props) => {
     setCurrentID(id);
     setCurrentUser(username);
   }
+
+  const handleLogout = () => {
+    window.localStorage.removeItem('loggedUser');
+    setActiveUser(null);
+    setDisplayPage('LOGIN');
+  };
 
   const menuStyle = {
     display: showMenu ? '' : 'none',
@@ -128,15 +140,18 @@ const App = (props) => {
   };
 
   const display = () => {
-    if(!activeUser) {
-      return (
-        <LoginPage 
-          setActiveUser={setActiveUser}
-        />
-      )
-    } else {
-      return (
-        <div>
+    switch(displayPage) {
+      case 'LOGIN':  {
+        return (
+          <LoginPage 
+            setActiveUser={setActiveUser}
+            setDisplayPage={setDisplayPage}
+          />
+        )
+      } 
+      case 'CHAT': {
+        return (
+          <div>
           <div className='chat-container'>
             <div className='message-container'>
               {showMessages()}
@@ -154,8 +169,12 @@ const App = (props) => {
               handleEnter={handleEnter}
             />
           </div>
+          <Row type="flex" justify="center">
+            <Button onClick={handleLogout}>Logout</Button>
+          </Row>
         </div>
-      )
+        )
+      }
     }
   }
 

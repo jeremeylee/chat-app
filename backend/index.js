@@ -61,7 +61,7 @@ app.post('/login', async (req, res, next) => {
 
     if (!(user && passwordCorrect)) {
       return res.status(401).json({
-        error: 'invalid username or password'
+        error: 'invalid username or password',
       });
     }
     

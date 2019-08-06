@@ -13,7 +13,7 @@ const messageReducer = (state = null, action) => {
       const editedMessage = [...state];
       const newMessage = {
         message: action.message,
-        //username: action.username,
+        username: action.username,
         id: action.id,
       };
       return editedMessage.map(message => message.id === action.id ? newMessage : message);
@@ -34,11 +34,11 @@ export const sendMessage = (data) => (
   }
 )
 
-export const editMessage = (message, id) => (
+export const editMessage = (message, username, id) => (
   {
     type: 'EDIT',
     message,
-    //username,
+    username,
     id,
   }
 )

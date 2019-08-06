@@ -13,8 +13,18 @@ const LoginPage = (props) => {
         console.log('Wrong values were entered');
       }
       
-      const activeUser = await loginService.login(values);
-      props.setActiveUser(activeUser);
+      const userCredentials = {
+        username: values.username,
+        password: values.password,
+      }
+      
+      const activeUser = await loginService.login(userCredentials);
+      props.setActiveUser(activeUser.username);
+      props.setDisplayPage('CHAT');
+      if (values.remember) {
+        window.localStorage.setItem('loggedUser', JSON.stringify(userCredentials));
+      }
+      
     })
   }
   return (
@@ -42,10 +52,10 @@ const LoginPage = (props) => {
           )}
         </Form.Item>
         <Form.Item>
-{/*           {getFieldDecorator('remember', {
+           {getFieldDecorator('remember', {
             valuePropName: 'checked',
             initialValue: true,
-          })(<Checkbox>Remember me</Checkbox>)} */}
+          })(<Checkbox>Remember me</Checkbox>)}
           <Row>
             <Button type="primary" htmlType="submit" className="login-form-button">
               Log in
