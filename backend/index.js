@@ -9,6 +9,7 @@ const config = require('./utils/config');
 const Message = require('./models/message');
 const User = require('./models/user');
 
+app.use(express.static('build'));
 app.use(bodyParser.json());
 
 mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true })
