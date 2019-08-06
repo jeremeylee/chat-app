@@ -1,13 +1,25 @@
 import React from 'react';
 import { Row, Form, Icon, Input, Button, Checkbox } from 'antd';
 import './loginPage.css';
-
+import loginService from '../services/login';
 
 const LoginPage = (props) => {
-  const { getFieldDecorator } = props.form
+  const { getFieldDecorator, validateFields } = props.form
+  
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    validateFields(async (err, values) => {
+      if(err) {
+        console.log('Wrong values were entered');
+      }
+      
+      const activeUser = await loginService.login(values);
+      props.setActiveUser(activeUser);
+    })
+  }
   return (
     <div className='container'>
-      <Form className='login-form'>
+      <Form onSubmit={handleSubmit} className='login-form'>
         <Form.Item>
           {getFieldDecorator('username', {
             rules: [{ required: true, message: 'Please input your username' }],
@@ -30,10 +42,10 @@ const LoginPage = (props) => {
           )}
         </Form.Item>
         <Form.Item>
-          {getFieldDecorator('remember', {
+{/*           {getFieldDecorator('remember', {
             valuePropName: 'checked',
             initialValue: true,
-          })(<Checkbox>Remember me</Checkbox>)}
+          })(<Checkbox>Remember me</Checkbox>)} */}
           <Row>
             <Button type="primary" htmlType="submit" className="login-form-button">
               Log in

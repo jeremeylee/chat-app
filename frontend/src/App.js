@@ -130,7 +130,9 @@ const App = (props) => {
   const display = () => {
     if(!activeUser) {
       return (
-        <LoginPage />
+        <LoginPage 
+          setActiveUser={setActiveUser}
+        />
       )
     } else {
       return (
