@@ -10,7 +10,8 @@ import Register from './components/register';
 import { sendMessage, editMessage, deleteMessage } from './reducers/messageReducer';
 import messageService from './services/messages';
 
-const socket = io('http://localhost:3001');
+const HOST = window.location.origin;
+const socket = io(HOST);
 
 const App = (props) => {
   const [displayPage, setDisplayPage] = useState('LOGIN');
