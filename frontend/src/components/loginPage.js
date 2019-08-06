@@ -19,7 +19,8 @@ const LoginPage = (props) => {
       }
       
       const activeUser = await loginService.login(userCredentials);
-      props.setActiveUser(activeUser.username);
+
+      props.setActiveUser(activeUser);
       props.setDisplayPage('CHAT');
       if (values.remember) {
         window.localStorage.setItem('loggedUser', JSON.stringify(userCredentials));

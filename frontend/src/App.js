@@ -91,7 +91,7 @@ const App = (props) => {
         message: chatText,
         username: activeUser.username,
       };
-      console.log('sending message from user: ', activeUser.username)
+
       socket.emit('newMessage', newMessage);
     }
     setChatText('');

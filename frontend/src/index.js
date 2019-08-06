@@ -13,7 +13,6 @@ const reducer = combineReducers({
 
 const store = createStore(reducer);
 const render = () => {
-  console.log(store.getState());
   ReactDOM.render(
   <Provider store={store}>
     <App />
