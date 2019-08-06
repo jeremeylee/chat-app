@@ -1,0 +1,14 @@
+.container {
+  background: white;
+  margin: 0 auto;
+  width: 310px;
+  border-radius: 10px;
+  -webkit-box-shadow: 10px 10px 17px -10px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 17px -10px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 17px -10px rgba(0,0,0,0.75);
+}
+
+.login-form {
+  padding: 10px;
+  width: 300px;
+}
