@@ -6,6 +6,7 @@ import { Row, Button } from 'antd';
 import ChatInput from './components/chatInput';
 import Message from './components/message';
 import LoginPage from './components/loginPage';
+import Register from './components/register';
 import { sendMessage, editMessage, deleteMessage } from './reducers/messageReducer';
 import messageService from './services/messages';
 
@@ -173,6 +174,14 @@ const App = (props) => {
             <Button onClick={handleLogout}>Logout</Button>
           </Row>
         </div>
+        )
+      }
+
+      case 'REGISTER': {
+        return (
+          <Register 
+            setDisplayPage={setDisplayPage}
+          />
         )
       }
     }

@@ -1,9 +1,9 @@
 import React from 'react';
-import { Row, Form, Icon, Input, Button, Checkbox } from 'antd';
+import { Row, Form, Icon, Input, Button } from 'antd';
 import './loginPage.css';
 import loginService from '../services/login';
 
-const LoginPage = (props) => {
+const Register = (props) => {
   const { getFieldDecorator, validateFields } = props.form
   
   const handleSubmit = (event) => {
@@ -18,19 +18,10 @@ const LoginPage = (props) => {
         password: values.password,
       }
       
-      const activeUser = await loginService.login(userCredentials);
-      props.setActiveUser(activeUser.username);
-      props.setDisplayPage('CHAT');
-      if (values.remember) {
-        window.localStorage.setItem('loggedUser', JSON.stringify(userCredentials));
-      }
+      await loginService.register(userCredentials);
+      props.setDisplayPage('LOGIN');
       
     })
-  }
-
-  const handleRegister = (event) => {
-    event.preventDefault();
-    props.setDisplayPage('REGISTER');
   }
   return (
     <div className='container'>
@@ -56,21 +47,14 @@ const LoginPage = (props) => {
             />,
           )}
         </Form.Item>
-        <Form.Item>
-           {getFieldDecorator('remember', {
-            valuePropName: 'checked',
-            initialValue: true,
-          })(<Checkbox>Remember me</Checkbox>)}
           <Row>
             <Button type="primary" htmlType="submit" className="login-form-button">
-              Log in
+              Register
             </Button>
           </Row>
-          Or <a onClick={handleRegister}>register now!</a>
-        </Form.Item>
       </Form>
     </div>
   );
 };
 
-export default Form.create()(LoginPage);
+export default Form.create()(Register);
