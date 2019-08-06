@@ -1,6 +1,6 @@
 .container {
   background: white;
-  margin: 0 auto;
+  margin: 50px auto;
   width: 310px;
   border-radius: 10px;
   -webkit-box-shadow: 10px 10px 17px -10px rgba(0,0,0,0.75);

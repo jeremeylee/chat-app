@@ -5,6 +5,7 @@ import './App.css';
 import { Row } from 'antd';
 import ChatInput from './components/chatInput';
 import Message from './components/message';
+import LoginPage from './components/loginPage';
 import { sendMessage, editMessage, deleteMessage } from './reducers/messageReducer';
 import messageService from './services/messages';
 
@@ -15,6 +16,7 @@ const randomUser = () => {
 }
 
 const App = (props) => {
+  const [activeUser, setActiveUser] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [chatText, setChatText] = useState('');
   const [currentID, setCurrentID] = useState(null);
@@ -44,7 +46,9 @@ const App = (props) => {
   }, []);
   
   useEffect(() => {
-    divRef.current.scrollIntoView();
+    if(activeUser) {
+      divRef.current.scrollIntoView();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message]);
 
@@ -108,7 +112,6 @@ const App = (props) => {
 
   }
 
-
   const showMessages = () => {
     if (message) {
       return (
@@ -124,26 +127,40 @@ const App = (props) => {
     }
   };
 
+  const display = () => {
+    if(!activeUser) {
+      return (
+        <LoginPage />
+      )
+    } else {
+      return (
+        <div>
+          <div className='chat-container'>
+            <div className='message-container'>
+              {showMessages()}
+              <div ref={divRef}></div>
+            </div>
+            <div className='context-menu' style={menuStyle}>
+              <ul>
+                <li onClick={handleEdit}>Edit</li>
+                <li onClick={handleDelete}>Delete</li>
+              </ul>
+            </div>
+            <ChatInput
+              chatText={chatText}
+              setChatText={setChatText}
+              handleEnter={handleEnter}
+            />
+          </div>
+        </div>
+      )
+    }
+  }
+
   return (
     <div>
       <Row type='flex' justify='center' className='header'><h1>Chat Application</h1></Row>
-      <div className='chat-container'>
-        <div className='message-container'>
-          {showMessages()}
-          <div ref={divRef}></div>
-        </div>
-        <div className='context-menu' style={menuStyle}>
-          <ul>
-            <li onClick={handleEdit}>Edit</li>
-            <li onClick={handleDelete}>Delete</li>
-          </ul>
-        </div>
-        <ChatInput
-          chatText={chatText}
-          setChatText={setChatText}
-          handleEnter={handleEnter}
-        />
-      </div>
+      {display()}
     </div>
   );
 }
