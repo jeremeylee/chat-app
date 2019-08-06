@@ -13,7 +13,7 @@ The project was designed as a learning experience to dive deeper with developing
 * Edit/delete user messages
 * Many users can be connected concurrently
 
-##Front End
+## Front End
 
 The front end was made with React and Ant Design. 
 
