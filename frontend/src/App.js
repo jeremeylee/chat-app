@@ -12,17 +12,12 @@ import messageService from './services/messages';
 
 const socket = io('http://localhost:3001');
 
-const randomUser = () => {
-  return Math.random() > 0.5 ? 'testUser1' : 'otherPerson2';
-}
-
 const App = (props) => {
   const [displayPage, setDisplayPage] = useState('LOGIN');
   const [activeUser, setActiveUser] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [chatText, setChatText] = useState('');
   const [currentID, setCurrentID] = useState(null);
-  const [currentUser, setCurrentUser] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [left, setLeft] = useState(0);
   const [top, setTop] = useState(0);
@@ -83,7 +78,7 @@ const App = (props) => {
     if(editMode) {
       const editedMessage = {
         message: event.target.value,
-        username: currentUser,
+        username: activeUser.username,
         id: currentID,
       };
 
@@ -94,7 +89,7 @@ const App = (props) => {
       setChatText(event.target.value);
       const newMessage = {
         message: chatText,
-        username: activeUser,
+        username: activeUser.username,
       };
 
       socket.emit('newMessage', newMessage);
@@ -104,11 +99,12 @@ const App = (props) => {
 
   const handleContextMenu = (event, username, id) => {
     event.preventDefault();
-    setShowMenu(true);
-    setLeft(event.pageX)
-    setTop(event.pageY)
-    setCurrentID(id);
-    setCurrentUser(username);
+    if (activeUser.username === username) {
+      setShowMenu(true);
+      setLeft(event.pageX)
+      setTop(event.pageY)
+      setCurrentID(id);
+    }
   }
 
   const handleLogout = () => {
