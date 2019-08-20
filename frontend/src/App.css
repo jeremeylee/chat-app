@@ -5,6 +5,10 @@ body {
   height: 575px;
 }
 
+h1 {
+  color: #f9f9f9;
+
+}
 .header {
   margin-top: 50px;
   margin-bottom: 0;
