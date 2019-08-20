@@ -52,7 +52,9 @@ const Register = (props) => {
               Register
             </Button>
           </Row>
+          Already have an account? <a onClick={() => props.setDisplayPage('LOGIN')}>Login!</a>
       </Form>
+      
     </div>
   );
 };
