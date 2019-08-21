@@ -39,4 +39,5 @@ The user loging process does involve a JWT sign, but the JWT is not used anywher
 ### TODO
 * Implement horizontal scaling for the database and create a new message collection for each user rather than storing all messages from all users in one collection
 * Implement JWT verification for when trying to edit/delete messages
-* Refactor Index.js to have more modular and individual components. Currently, everything is stored inside of Index.js apart from the database schemas and models.
+* ~~Refactor Index.js to have more modular and individual components. Currently, everything is stored inside of Index.js apart from the database schemas and models.~~
+* Prevent registering the same username
